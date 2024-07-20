@@ -23,7 +23,7 @@ export const createDocument = async({userId,email}:CreateDocumentParams)=>{
     const room = await liveblocks.createRoom(roomId, {
       metadata,
       usersAccesses,
-      defaultAccesses: []
+      defaultAccesses: ['room:write']
     });
     
     revalidatePath('/');
@@ -31,5 +31,37 @@ export const createDocument = async({userId,email}:CreateDocumentParams)=>{
     return parseStringify(room);
   } catch (error) {
     console.log(`Error happened while creating a room: ${error}`);
-  }
+}
+}
+
+
+export const getDocument = async ({roomId,userId}:{roomId:string,userId:string})=>{
+ try {
+   const room  = await liveblocks.getRoom(roomId);
+  //  const hasAccess = Object.keys(room.usersAccesses).includes(userId);
+  //  if(!hasAccess){
+  //    throw new Error("You dont have Access to This Document");
+  //  }
+   return parseStringify(room);
+ } catch (error) {
+  console.log(`Error Happend while getting a Room ${error}`)
+ }
+}
+
+
+export const updateDocument = async(roomId:string,title:string)=>{
+    try {
+      const updatedRoom = await liveblocks.updateRoom(roomId,{
+        metadata:{
+          title
+        }
+      })
+
+      revalidatePath(`/documents/${roomId}`)
+
+
+      return parseStringify(updatedRoom)
+    } catch (error) {
+        console.log("Error while Updating the Room")
+    }
 }
