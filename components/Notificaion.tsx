@@ -53,7 +53,7 @@ export const Notifications = () => {
                 No notifications yet
               </p>
             )}
-        {""}
+       
             {unreadNotifications.length > 0 &&
               unreadNotifications.map((inboxNotification: any) => (
                 <InboxNotification
