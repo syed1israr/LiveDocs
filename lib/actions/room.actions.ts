@@ -1,4 +1,3 @@
-
 'use server'
 
 import {nanoid} from "nanoid"
@@ -65,3 +64,17 @@ export const updateDocument = async(roomId:string,title:string)=>{
         console.log("Error while Updating the Room")
     }
 }
+
+
+export const getDocuments = async (email:string)=>{
+  try {
+    const rooms  = await liveblocks.getRooms({userId:email});
+   //  const hasAccess = Object.keys(room.usersAccesses).includes(userId);
+   //  if(!hasAccess){
+   //    throw new Error("You dont have Access to This Document");
+   //  }
+    return parseStringify(rooms);
+  } catch (error) {
+   console.log(`Error Happend while getting a Rooms ${error}`)
+  }
+ }
